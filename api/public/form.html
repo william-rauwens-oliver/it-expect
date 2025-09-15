@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulaire Transaction</title>
+</head>
+<body>
+  <h1>Nouvelle transaction</h1>
+  <form id="txForm">
+    <label>
+      Label
+      <input name="label" id="label" />
+    </label>
+    <label>
+      Amount
+      <input name="amount" id="amount" type="number" />
+    </label>
+    <button type="submit">Envoyer</button>
+  </form>
+  <pre id="result"></pre>
+  <script>
+    const form = document.getElementById('txForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const label = document.getElementById('label').value;
+      const amount = Number(document.getElementById('amount').value);
+      const res = await fetch('/api/transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ label, amount })
+      });
+      const json = await res.json();
+      document.getElementById('result').textContent = JSON.stringify(json);
+    });
+  </script>
+</body>
+</html>

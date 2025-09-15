@@ -13,12 +13,23 @@ services:
   api:
     build:
       context: .
-      dockerfile: api/Dockerfile
     container_name: finance-api
     environment:
       - PORT=4000
+      - LEDGER_URL=http://ledger:5000/validate
     ports:
       - "4000:4000"
+    depends_on:
+      - ledger
+  ledger:
+    build:
+      context: .
+      dockerfile: ledger/Dockerfile
+    container_name: finance-ledger
+    environment:
+      - PORT=5000
+    ports:
+      - "5000:5000"
   db:
     image: postgres:15-alpine
     container_name: finance-db

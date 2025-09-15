@@ -29,8 +29,14 @@ jobs:
       - name: Start PHP server (serving build)
         run: php -S 127.0.0.1:5173 -t finance-flow/build &
 
-      - name: Wait for server
-        run: npx wait-on http://127.0.0.1:5173
+      - name: Start ledger service
+        run: node ledger/server.js &
+
+      - name: Start API service
+        run: node api/server.js &
+
+      - name: Wait for servers
+        run: npx wait-on http://127.0.0.1:5173 http://127.0.0.1:4000/api/health
 
       - name: Run Cypress E2E
         run: npm run test:e2e
