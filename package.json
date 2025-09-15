@@ -853,12 +853,16 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "cypress": "^15.2.0",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "supertest": "^7.1.4"
   },
   "scripts": {
     "test": "jest",
     "cy:open": "cypress open",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run",
+    "api:start": "node api/server.js",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
   },
   "keywords": [],
   "author": "",
