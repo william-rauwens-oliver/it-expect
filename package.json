@@ -866,7 +866,7 @@
     "docker:down": "docker compose down",
     "start:ledger": "node ledger/server.js",
     "start:api": "node api/server.js",
-    "test:e2e:full": "node ledger/server.js & node api/server.js & npm run test:e2e"
+    "test:e2e:full": "node ledger/server.js & node api/server.js & npx wait-on http://127.0.0.1:4000/api/health http://127.0.0.1:5000/validate && cypress run"
   },
   "keywords": [],
   "author": "",
