@@ -1,7 +1,23 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const path = require('path');
 const app = express();
 app.use(express.json());
+
+// Enable CORS for all origins
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
+// Expose static public assets for UI E2E (e.g., /public/form.html)
+app.use('/public', require('express').static(path.join(__dirname, 'public')));
 
 const transactions = [
   { id: 1, label: 'Salaire', amount: 2500 },

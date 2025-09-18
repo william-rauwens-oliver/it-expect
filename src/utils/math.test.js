@@ -21,3 +21,9 @@ test('sum gère les nombres négatifs', () => {
 test('average gère décimaux et négatifs', () => {
   expect(average([-1, 0.5, 2.5])).toBeCloseTo(0.6666667, 6);
 });
+
+test('average gère grands tableaux', () => {
+  const arr = Array.from({ length: 1000 }, (_, i) => i + 1); // 1..1000
+  const avg = average(arr);
+  expect(avg).toBeCloseTo(500.5, 10);
+});

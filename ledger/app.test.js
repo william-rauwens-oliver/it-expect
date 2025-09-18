@@ -25,4 +25,12 @@ describe('Ledger /validate', () => {
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ approved: false, reason: 'zero_amount' });
   });
+
+  test('rejette payload manquant', async () => {
+    const res = await request(app)
+      .post('/validate')
+      .send(null);
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ approved: false, reason: 'invalid_payload' });
+  });
 });

@@ -31,7 +31,11 @@
         body: JSON.stringify({ label, amount })
       });
       const json = await res.json();
-      document.getElementById('result').textContent = JSON.stringify(json);
+      if (res.ok) {
+        document.getElementById('result').textContent = `OK: ${json.label}`;
+      } else {
+        document.getElementById('result').textContent = json.reason || json.error || 'Erreur';
+      }
     });
   </script>
 </body>
