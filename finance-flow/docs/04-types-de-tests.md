@@ -1,0 +1,16 @@
+# Types de tests
+
+## Unitaires
+- Objectif: valider une unité de code isolée.
+- Outils: Jest.
+- Exemples: `ledger/app.test.js`, `src/utils/math.test.js`.
+
+## Intégration
+- Objectif: vérifier l’interaction entre modules/services.
+- Outils: Jest + Supertest, mocks.
+- Exemples: `api/app.test.js` (mock `node-fetch`).
+
+## End to End (fonctionnels)
+- Objectif: valider un parcours de bout en bout (proche prod).
+- Outils: Cypress, ou Jest HTTP avec services démarrés.
+- Exemples: `src/integration/e2e.flow.test.js`, `cypress/e2e/recipes.cy.js`.
