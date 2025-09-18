@@ -1,16 +1,16 @@
-# Types de tests et critères
+# Types de tests
 
-Tests unitaires
-- Petites unités de code, rapides, isolés.
-- Outils: Jest, @testing-library/*.
+## Unitaires
+- Objectif: valider une unité de code isolée.
+- Outils: Jest.
+- Exemples: `ledger/app.test.js`, `src/utils/math.test.js`.
 
-Tests d’intégration
-- Modules assemblés, mocks pour I/O externes.
+## Intégration
+- Objectif: vérifier l’interaction entre modules/services.
+- Outils: Jest + Supertest, mocks.
+- Exemples: `api/app.test.js` (mock `node-fetch`).
 
-Tests end-to-end (E2E)
-- Parcours utilisateur bout en bout.
-- Outil: Cypress.
-
-Critères d’acceptation
-- Tests unitaires/integ critiques au vert.
-- Parcours E2E critiques passent en local et CI.
+## End to End (fonctionnels)
+- Objectif: valider un parcours de bout en bout (proche prod).
+- Outils: Cypress, ou Jest HTTP avec services démarrés.
+- Exemples: `src/integration/e2e.flow.test.js`, `cypress/e2e/recipes.cy.js`.

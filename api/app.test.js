@@ -46,4 +46,28 @@ describe('API integration', () => {
     expect(res.status).toBe(502);
     expect(res.body.error).toBe('ledger_unreachable');
   });
+
+  it('POST puis GET /api/transactions fait croitre la liste (ledger approuve)', async () => {
+    fetch.mockResolvedValue({ json: async () => ({ approved: true }) });
+    const before = await request(app).get('/api/transactions');
+    expect(before.status).toBe(200);
+    const initialLen = Array.isArray(before.body) ? before.body.length : 0;
+
+    const created = await request(app)
+      .post('/api/transactions')
+      .send({ label: 'IntTest', amount: 42 });
+    expect(created.status).toBe(201);
+
+    const after = await request(app).get('/api/transactions');
+    expect(after.status).toBe(200);
+    expect(after.body.length).toBe(initialLen + 1);
+    expect(after.body.some(t => t.label === 'IntTest' && t.amount === 42)).toBe(true);
+  });
+
+  it('sert le fichier statique /public/form.html', async () => {
+    const res = await request(require('express')().use('/public', require('express').static(require('path').join(__dirname, 'public')))).get('/public/form.html');
+    // alternative: monter le middleware déjà déclaré dans server.js n'est pas direct ici, on vérifie via montage ad hoc
+    expect(res.status).toBe(200);
+    expect(res.text).toContain('Nouvelle transaction');
+  });
 });

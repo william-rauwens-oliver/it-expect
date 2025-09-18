@@ -1,22 +1,24 @@
 # Cahier de recettes
 
 Contexte
-- Application front (build CRA) servie sur `http://127.0.0.1:5173`.
+- Application API sur `http://127.0.0.1:4000`
+- Service Ledger sur `http://127.0.0.1:5000`
+- Front (build CRA) servi localement, non requis pour les recettes API
 
-Fonctionnalités recensées (à préciser si besoin)
-- Affichage de la page d’accueil et du shell applicatif (header, contenu).
-- Navigation basique (si routing présent) entre vues principales.
-- Affichage d’une liste/tableau des éléments financiers (si disponible).
+Pré-requis généraux
+- Services démarrés si scénario E2E: `npm run test:e2e:full` (ou lancer ledger et api)
 
-Recettes (exemples)
-1. Chargement: Accéder à l’URL racine affiche le titre de l’app et le contenu initial sans erreur console.
-2. Navigation: Cliquer sur les liens du menu change la vue et l’URL (si SPA avec router).
-3. Détail: Ouvrir un élément affiche ses détails (si implémenté).
+Cas de test (tableau)
 
-Données et prérequis
-- Serveur local démarré.
-- Connexions réseau locales autorisées.
+| ID | Fonctionnalité | Préconditions | Étapes | Résultat attendu |
+|---|---|---|---|---|
+| REC-001 | Healthcheck API | API démarrée | Requêter `GET /api/health` | 200, body `{ status: 'ok' }` |
+| REC-002 | Lister transactions | API démarrée | Requêter `GET /api/transactions` | 200, JSON tableau avec objets `{ id,label,amount }` |
+| REC-003 | Ajouter transaction approuvée | API et Ledger démarrés; payload valide | `POST /api/transactions` body `{ label:'Salaire', amount:100 }` | 201, JSON avec `{ id,label,amount }`; Ledger appelé; item ajouté |
+| REC-004 | Refus ledger: montant nul | API et Ledger démarrés | `POST /api/transactions` body `{ label:'Zero', amount:0 }` | 422, `{ error:'not_approved', reason:'zero_amount' }` |
+| REC-005 | Payload invalide | API seule | `POST /api/transactions` body `{ label:123, amount:'oops' }` | 400, `{ error:'invalid_payload' }` |
+| REC-006 | Ledger indisponible | API démarrée, Ledger down | `POST /api/transactions` body `{ label:'X', amount:1 }` | 502, `{ error:'ledger_unreachable' }` |
 
-Critères de succès
-- Tous les cas ci-dessus passent.
-- Aucune erreur JS bloquante.
+Notes
+- Les endpoints ci-dessus proviennent de `api/app.js` et `ledger/app.js`.
+- Les tests automatisés correspondants sont dans Jest (unit/intégration) et Cypress (E2E).
