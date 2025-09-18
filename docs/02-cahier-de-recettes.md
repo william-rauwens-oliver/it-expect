@@ -21,4 +21,4 @@ Cas de test (tableau)
 
 Notes
 - Les endpoints ci-dessus proviennent de `api/app.js` et `ledger/app.js`.
-- Les tests automatisés correspondants sont dans Jest (unit/intégration) et Cypress (E2E).
+- Les tests automatisés correspondants sont dans Jest (unitaires/fonctionnels) et Cypress (E2E).

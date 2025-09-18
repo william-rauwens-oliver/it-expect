@@ -7,9 +7,11 @@ Installation
 - `npm install`
 
 Commandes
-- `npm test`: exécute Jest.
+- `npm test`: exécute Jest (unitaires + fonctionnels API).
 - `npm run cy:open`: ouvre Cypress.
 - `npm run test:e2e`: lance Cypress en headless.
 
-Cible locale
-- L’app doit être servie sur `http://127.0.0.1:5173` pour les E2E.
+Services locaux
+- API: http://127.0.0.1:4000
+- Ledger: http://127.0.0.1:5000
+- Front (build): http://127.0.0.1:8080

@@ -5,12 +5,12 @@
 - Outils: Jest.
 - Exemples: `ledger/app.test.js`, `src/utils/math.test.js`.
 
-## Intégration
-- Objectif: vérifier l’interaction entre modules/services.
+## Fonctionnels
+- Objectif: vérifier les fonctionnalités métiers via l’API (interaction modules/services).
 - Outils: Jest + Supertest, mocks.
 - Exemples: `api/app.test.js` (mock `node-fetch`).
 
-## End to End (fonctionnels)
+## End to End (E2E)
 - Objectif: valider un parcours de bout en bout (proche prod).
 - Outils: Cypress, ou Jest HTTP avec services démarrés.
-- Exemples: `src/integration/e2e.flow.test.js`, `cypress/e2e/recipes.cy.js`.
+- Exemples: `cypress/e2e/*.cy.js`.

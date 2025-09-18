@@ -4,16 +4,16 @@ Objectif: garantir la qualité fonctionnelle, la non-régression et la robustess
 
 ## Pyramide de tests
 - Tests unitaires (majoritaires): valider les unités de code (ex: `ledger/app.js` route `/validate`, utilitaires `src/utils/math.js`).
-- Tests d’intégration: vérifier l’interaction entre modules (ex: `api/app.js` qui contacte le Ledger avec `node-fetch`).
+- Tests fonctionnels: vérifier les fonctionnalités métiers via l’API (ex: `api/app.js` qui contacte le Ledger, contrôles d’erreurs et CORS) avec mocks si besoin.
 - Tests end-to-end (E2E): valider les parcours critiques utilisateur/app (ex: ajout réel d’une transaction avec Ledger opérationnel, Cypress UI si front utilisé).
 
 ## Portée et priorités (basée sur le cahier de recettes)
-- REC-001 Healthcheck API → Test intégration (Jest) + E2E minimal.
-- REC-002 Liste des transactions → Test intégration (Jest) + E2E.
-- REC-003 Ajout approuvé → Unit Ledger + Intégration API (mock) + E2E réel.
-- REC-004 Refus montant nul → Unit Ledger + Intégration API (mock) + E2E.
-- REC-005 Payload invalide → Unit Ledger + Intégration API.
-- REC-006 Ledger indisponible → Intégration API (rejet fetch) + E2E négatif.
+- REC-001 Healthcheck API → Test fonctionnel (Jest/Supertest) + E2E minimal.
+- REC-002 Liste des transactions → Test fonctionnel (Jest/Supertest) + E2E.
+- REC-003 Ajout approuvé → Unitaire Ledger + Fonctionnel API (mock) + E2E réel.
+- REC-004 Refus montant nul → Unitaire Ledger + Fonctionnel API (mock) + E2E.
+- REC-005 Payload invalide → Unitaire Ledger + Fonctionnel API.
+- REC-006 Ledger indisponible → Fonctionnel API (rejet fetch) + E2E négatif.
 
 ## Priorisation des tests
 - Critiques (P0): REC-003 (ajout), REC-004 (refus), REC-006 (panne ledger)
@@ -23,7 +23,7 @@ Objectif: garantir la qualité fonctionnelle, la non-régression et la robustess
 ## Cycle de vie des tests
 1. Rédaction cas (cahier de recettes)
 2. Implémentation tests unitaires (fondations)
-3. Implémentation tests d’intégration (mocks)
+3. Implémentation tests fonctionnels (API + mocks si besoin)
 4. Implémentation tests E2E (environnement proche prod)
 5. Exécution, analyse, correction, re-exécution (boucle)
 6. Rapports et critères de sortie
@@ -33,7 +33,7 @@ Objectif: garantir la qualité fonctionnelle, la non-régression et la robustess
 |---|---|---|---|---|
 | Ledger indisponible | Blocage création | Moyenne | Haute | Test REC-006, timeouts, messages 502 |
 | Payload invalide | Erreurs 500 | Basse | Moyenne | Validation input, test REC-005 |
-| Régression API | Parcours cassés | Moyenne | Haute | CI, suites smoke et intégration |
+| Régression API | Parcours cassés | Moyenne | Haute | CI, suites smoke et fonctionnels |
 
 ## Critères d’acceptation génériques
 - Tous les cas REC-001 → REC-006 passent en local.
@@ -41,12 +41,12 @@ Objectif: garantir la qualité fonctionnelle, la non-régression et la robustess
 - Aucun test rouge sur CI.
 
 ## Outils
-- Unit/Integration: Jest + Supertest.
+- Unitaires/Fonctionnels: Jest + Supertest.
 - E2E: Cypress et/ou Jest HTTP contre services démarrés.
 
 ## Environnements
 - Local: API `:4000`, Ledger `:5000`. Front (optionnel) via build CRA.
-- CI: exécution headless des tests unitaires, intégration et Cypress.
+- CI: exécution headless des tests unitaires, fonctionnels et Cypress.
 
 ## Données de test
 - Mocks pour `node-fetch` côté `api/app.test.js`.
