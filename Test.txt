@@ -1,3 +1,6 @@
 unitaire : npm test
+
 fonctionnel : echo "\n=== Test 1: Création revenu ===" && curl -s -o /tmp/resp1.json -w "HTTP:%{http_code}\n" -H "Content-Type: application/json" -X POST http://127.0.0.1:4000/api/transactions -d '{"label":"Salaire Fonctionnel Manuel","amount":3000}' && cat /tmp/resp1.json && echo "\n\n=== Test 2: Création dépense ===" && curl -s -o /tmp/resp2.json -w "HTTP:%{http_code}\n" -H "Content-Type: application/json" -X POST http://127.0.0.1:4000/api/transactions -d '{"label":"Courses Fonctionnel Manuel","amount":-150}' && cat /tmp/resp2.json && echo "\n\n=== Test 3: Rejet montant nul ===" && curl -s -o /tmp/resp3.json -w "HTTP:%{http_code}\n" -H "Content-Type: application/json" -X POST http://127.0.0.1:4000/api/transactions -d '{"label":"Zero Manuel","amount":0}' && cat /tmp/resp3.json && echo "\n\n=== Test 4: Préflight CORS (OPTIONS) ===" && curl -i -s -X OPTIONS http://127.0.0.1:4000/api/transactions -H "Origin: http://127.0.0.1:8080" -H "Access-Control-Request-Method: POST" | sed -n '1,10p' && echo "\n=== Test 5: Liste des transactions (vérification) ===" && curl -s http://127.0.0.1:4000/api/transactions | head -c 500 && echo "\n"
+node test-functional.js
+
 E2E : "npx cypress run --spec cypress/e2e/react-app.cy.js | cat
